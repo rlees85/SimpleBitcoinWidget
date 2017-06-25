@@ -19,8 +19,8 @@ enum RippleExchange implements Exchange {
             JSONObject obj = getJSONObject("https://api.bitfinex.com/v1/ticker/xrpbtc");
             double dXRPVAL = Double.parseDouble(obj.getString("last_price"));
             double dBTCVAL = BTC_to_FIAT(currencyCode);
-            double dXEMFIAT = dXRPVAL * dBTCVAL;
-            return String.valueOf(dXEMFIAT);
+            double dXRPFIAT = dXRPVAL * dBTCVAL;
+            return String.valueOf(dXRPFIAT);
         }
     },
     BTER(R.array.currencies_bter, "bter") {
@@ -45,8 +45,8 @@ enum RippleExchange implements Exchange {
             double dXRPVAL = Double.parseDouble(obj.getJSONObject("BTC_XRP").getString("last"));
             double dBTCVAL = BTC_to_FIAT(currencyCode);
 
-            double dXEMFIAT = dXRPVAL * dBTCVAL;
-            return String.valueOf(dXEMFIAT);
+            double dXRPFIAT = dXRPVAL * dBTCVAL;
+            return String.valueOf(dXRPFIAT);
         }
     };
 
