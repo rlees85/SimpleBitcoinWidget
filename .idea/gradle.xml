@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/cryptowidget" />
             <option value="$PROJECT_DIR$/ethereum" />
             <option value="$PROJECT_DIR$/litecoin" />
+            <option value="$PROJECT_DIR$/xem" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
