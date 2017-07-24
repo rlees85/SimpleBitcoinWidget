@@ -24,5 +24,6 @@ android {
 dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':cryptowidget')
+    compile 'com.android.support.test:runner:0.5'
 }
 
