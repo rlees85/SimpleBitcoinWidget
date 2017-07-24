@@ -5,6 +5,8 @@ import com.brentpanther.cryptowidget.Exchange;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.SocketException;
+
 import static com.brentpanther.cryptowidget.ExchangeHelper.getJSONObject;
 
 /**
@@ -43,7 +45,12 @@ enum EthereumExchange implements Exchange {
     BTCE(R.array.currencies_btce, "btc-e") {
         @Override
         public String getValue(String currencyCode) throws Exception {
-            JSONObject obj = getJSONObject(String.format("https://btc-e.com/api/3/ticker/eth_%s", currencyCode.toLowerCase()));
+            JSONObject obj;
+            try {
+                obj = getJSONObject(String.format("https://btc-e.com/api/3/ticker/eth_%s", currencyCode.toLowerCase()));
+            } catch (SocketException e) {
+                obj = getJSONObject(String.format("https://btc-e.nz/api/3/ticker/eth_%s", currencyCode.toLowerCase()));
+            }
             obj = obj.getJSONObject(String.format("eth_%s", currencyCode.toLowerCase()));
             return obj.getString("last");
         }
@@ -99,6 +106,13 @@ enum EthereumExchange implements Exchange {
         @Override
         public String getValue(String currencyCode) throws Exception {
             return getJSONObject(String.format("https://api.hitbtc.com/api/1/public/ETH%s/ticker", currencyCode)).getString("last");
+        }
+    },
+    INDEPENDENT_RESERVE(R.array.currencies_independentreserve, "ind. reserve") {
+        @Override
+        public String getValue(String currencyCode) throws Exception {
+            String url = "https://api.independentreserve.com/Public/GetMarketSummary?primaryCurrencyCode=eth&secondaryCurrencyCode=%s";
+            return getJSONObject(String.format(url, currencyCode)).getString("LastPrice");
         }
     },
     KRAKEN(R.array.currencies_kraken, "kraken") {
