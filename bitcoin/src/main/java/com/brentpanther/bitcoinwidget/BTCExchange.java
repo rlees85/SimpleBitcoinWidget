@@ -5,7 +5,7 @@ import com.brentpanther.cryptowidget.Exchange;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.net.SocketException;
+import okhttp3.Headers;
 
 import static com.brentpanther.cryptowidget.ExchangeHelper.getJSONArray;
 import static com.brentpanther.cryptowidget.ExchangeHelper.getJSONObject;
@@ -42,20 +42,6 @@ enum BTCExchange implements Exchange {
         public String getValue(String currencyCode) throws Exception {
             JSONObject obj = getJSONObject("https://campbx.com/api/xticker.php");
             return obj.getString("Last Trade");
-        }
-    },
-    BTCE(R.array.currencies_btce, "btc-e") {
-        @Override
-        public String getValue(String currencyCode) throws Exception {
-            JSONObject obj;
-            try {
-                obj = getJSONObject(String.format("https://btc-e.com/api/3/ticker/btc_%s", currencyCode.toLowerCase()));
-            } catch (SocketException e) {
-                // try mirror
-                obj = getJSONObject(String.format("https://btc-e.nz/api/3/ticker/btc_%s", currencyCode.toLowerCase()));
-            }
-            obj = obj.getJSONObject(String.format("btc_%s", currencyCode.toLowerCase()));
-            return obj.getString("last");
         }
     },
     MERCADO(R.array.currencies_mercado, "mercado") {
@@ -181,7 +167,8 @@ enum BTCExchange implements Exchange {
     KORBIT(R.array.currencies_korbit, "korbit") {
         @Override
         public String getValue(String currencyCode) throws Exception {
-            return getJSONObject("https://api.korbit.co.kr/v1/ticker").getString("last");
+            Headers headers = Headers.of("User-Agent", "");
+            return getJSONObject("https://api.korbit.co.kr/v1/ticker?currency_pair=btc_krw", headers).getString("last");
         }
     },
     PAYMIUM(R.array.currencies_paymium, "paymium") {
@@ -255,7 +242,7 @@ enum BTCExchange implements Exchange {
     BITCOINCOID(R.array.currencies_bitcoincoid, "bitcoin.co.id") {
         @Override
         public String getValue(String currencyCode) throws Exception {
-            return getJSONObject("https://vip.bitcoin.co.id/api/BTC_IDR/ticker/").getJSONObject("ticker").getString("last");
+            return getJSONObject("https://vip.bitcoin.co.id/api/btc_idr/ticker/").getJSONObject("ticker").getString("last");
         }
     },
     FOXBIT(R.array.currencies_foxbit, "foxbit") {
@@ -429,6 +416,37 @@ enum BTCExchange implements Exchange {
         public String getValue(String currencyCode) throws Exception {
             String url = "https://api.coinsecure.in/v0/noauth/newticker";
             return String.valueOf(getJSONObject(url).getLong("lastprice") / 100);
+        }
+    },
+    COINDESK(R.array.currencies_coindesk, "coindesk") {
+        @Override
+        public String getValue(String currencyCode) throws Exception {
+            String url = String.format("https://api.coindesk.com/v1/bpi/currentprice/%s.json", currencyCode);
+            return getJSONObject(url).getJSONObject("bpi").getJSONObject(currencyCode).getString("rate_float");
+        }
+    },
+    BITTREX(R.array.currencies_bittrex, "bittrex") {
+        @Override
+        public String getValue(String currencyCode) throws Exception {
+            String url = "https://bittrex.com/api/v1.1/public/getticker?market=USDT-BTC";
+            return getJSONObject(url).getJSONObject("result").getString("Last");
+        }
+    },
+    BITHUMB(R.array.currencies_bithumb, "bithumb") {
+        @Override
+        public String getValue(String currencyCode) throws Exception {
+            String url = "https://api.bithumb.com/public/ticker/BTC";
+            JSONObject data = getJSONObject(url).getJSONObject("data");
+            Long buy = Long.valueOf(data.getString("buy_price"));
+            Long sell = Long.valueOf(data.getString("sell_price"));
+            return String.valueOf((buy + sell) / 2);
+        }
+    },
+    ZEBPAY(R.array.currencies_zebpay, "zebpay") {
+        @Override
+        public String getValue(String currencyCode) throws Exception {
+            String url = "https://www.zebapi.com/api/v1/market/ticker/btc/inr";
+            return getJSONObject(url).getString("market");
         }
     };
 

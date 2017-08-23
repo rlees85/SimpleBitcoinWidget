@@ -1,1 +1,1 @@
-include ':bitcoin', ':ethereum', ':cryptowidget', ':litecoin', ':xem', ':ripple'
+include ':bitcoin', ':ethereum', ':cryptowidget', ':litecoin', ':bitcoincash', ':xem', ':ripple'
