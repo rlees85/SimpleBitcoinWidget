@@ -2,7 +2,6 @@ package com.brentpanther.ripplewidget;
 
 import com.brentpanther.cryptowidget.Exchange;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import static com.brentpanther.cryptowidget.ExchangeHelper.getJSONObject;
