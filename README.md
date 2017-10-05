@@ -51,11 +51,23 @@ Clean looking, simple cryptocurrency widgets for Android.
 </a>
 
 
+## Simple Ripple Widget
+
+This is not yet published on Google Play or F-Droid.
+
+
+## Simple Xem Widget
+
+This is not yet published on Google Play or F-Droid.
+
+
 ## License
 
 This software has an MIT License. All forks of this codebase have my authorization to be released on Google Play and other app stores.
 
 
 ## Donations
+
+### Original Author
 
 Donation can be made by Bitcoin to 15SHnY7HC5bTxzErHDPe7wHXj1HhtDKV7z
